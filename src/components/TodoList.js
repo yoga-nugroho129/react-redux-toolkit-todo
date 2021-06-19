@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TodoItem from './TodoItem'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getTodosAsync } from '../redux'
 
 const TodoList = () => {
   const todos = useSelector(state => state.todos.initialTodos)
+  const isLoading = useSelector(state => state.todos.isLoading)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getTodosAsync())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <ul className='todo-list'>
       <div className="container">
         {
-          todos.map(todo => (
-            <TodoItem key={todo.id} id={todo.id} text={todo.text} isCompleted={todo.isCompleted} />
+          isLoading ? <div className='loading-text'>Loading...</div> : todos.map(todo => (
+            <TodoItem key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} />
           ))
         }
       </div>

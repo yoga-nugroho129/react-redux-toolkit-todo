@@ -4,19 +4,19 @@ import { deleteTodo, setComplete } from '../redux'
 
 const TodoItem = ({
   id,
-  text,
-  isCompleted
+  title,
+  completed
 }) => {
   const dispatch = useDispatch()
 
   return (
     <li 
-      className={`todo-item ${isCompleted && 'completed'}`}
-      onClick={() => dispatch(setComplete({id, isCompleted: !isCompleted}))}
+      className={`todo-item ${completed && 'completed'}`}
+      onClick={() => dispatch(setComplete({id, completed: !completed}))}
     >
       <div className="left">
-        <input type="checkbox" checked={isCompleted} />
-        <label>{text}</label>
+        <input type="checkbox" checked={completed} />
+        <label>{title}</label>
       </div>
       <button onClick={() => dispatch(deleteTodo({id}))}>-</button>
     </li>

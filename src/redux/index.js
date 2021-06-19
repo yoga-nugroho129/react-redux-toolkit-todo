@@ -1,7 +1,8 @@
 import {
   addNewTodo,
   deleteTodo,
-  setComplete
+  setComplete,
+  getTodosAsync
 } from './todoSlice'
 
-export {addNewTodo, deleteTodo, setComplete}
+export {addNewTodo, deleteTodo, setComplete, getTodosAsync}

@@ -1,25 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
 
-// export const fetchTodos = createAsyncThunk(
-//   'todos'
-// )
+export const getTodosAsync = createAsyncThunk(
+  'todos',
+  async () => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/todos?_start=0&_limit=5')
+    const todos = await response.data
+    return todos
+  }
+)
 
 export const todoSlice = createSlice({
   name: 'todos',
   initialState: {
-    initialTodos: [
-      {id: 1, text: 'Todo 1', isCompleted: false},
-      {id: 2, text: 'Todo 2', isCompleted: false},
-      {id: 3, text: 'Todo 3', isCompleted: true},
-      {id: 4, text: 'Todo 4', isCompleted: false}
-    ]
+    initialTodos: [],
+    isLoading: false
   },
   reducers: {
     addNewTodo: (state, action) => {
       const newTodo = {
         id: Date.now(),
-        text: action.payload.text,
-        isCompleted: false
+        title: action.payload.text,
+        completed: false
       }
       state.initialTodos.push(newTodo)
     },
@@ -29,9 +31,18 @@ export const todoSlice = createSlice({
     },
     setComplete: (state, action) => {
       const selectedTodo = state.initialTodos.find(todo => todo.id === action.payload.id)
-      selectedTodo.isCompleted = action.payload.isCompleted
+      selectedTodo.completed = action.payload.completed
     }
   },
+  extraReducers: {
+    [getTodosAsync.pending]: state => {
+      state.isLoading = true
+    },
+    [getTodosAsync.fulfilled]: (state, action) => {
+      state.isLoading = false
+      state.initialTodos = action.payload
+    },
+  }
 })
 
 // Action creators are generated for each case reducer function
