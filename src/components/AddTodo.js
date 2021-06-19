@@ -10,17 +10,18 @@ const AddTodo = () => {
     setInputedText(e.target.value)
   }
 
-  const handleClick = e => {
+  const handleSubmit = e => {
+    e.preventDefault()
     dispatch(addNewTodo({text: inputedText}))
     setInputedText('')
   }
 
   return (
     <div className='add-todo'>
-      <div className="container">
-        <input type="text" placeholder="Add New Todo" value={inputedText} onChange={handleChange} />
-        <button onClick={handleClick}>Add Todo</button>
-      </div>
+      <form className="container" onSubmit={handleSubmit}>
+        <input type="text" placeholder="Add New Todo" value={inputedText} onChange={handleChange} required />
+        <button>Add Todo</button>
+      </form>
     </div>
   )
 }

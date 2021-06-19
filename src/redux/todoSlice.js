@@ -1,7 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+// export const fetchTodos = createAsyncThunk(
+//   'todos'
+// )
 
 export const todoSlice = createSlice({
-  name: 'todo',
+  name: 'todos',
   initialState: {
     initialTodos: [
       {id: 1, text: 'Todo 1', isCompleted: false},
